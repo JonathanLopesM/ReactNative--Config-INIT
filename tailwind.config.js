@@ -8,12 +8,6 @@ module.exports = {
     extend: {
       colors: {
         background: '#09090a',
-      },
-      fontFamily: {
-        regular: 'Inter_400Regular',
-        semibold: 'Inter_600SemiBold',
-        bold: 'Inter_700Bold',
-        extraBold: 'Inter_800ExtraBold'
       }
     },
   },

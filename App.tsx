@@ -1,33 +1,39 @@
-import { StatusBar } from 'react-native';
-import { 
-  useFonts, 
-  Inter_400Regular,
-  Inter_600SemiBold,
-  Inter_700Bold,
-  Inter_800ExtraBold
-} from '@expo-google-fonts/inter'
+/// <reference types="nativewind/types" />
+import 'react-native-gesture-handler';
+import { useState } from 'react';
+import { StatusBar, StatusBarStyle } from 'react-native';
+import { Routes } from './src/routes';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { NavigationContainer } from '@react-navigation/native'
 
 import { Loading } from './src/components/Loading';
-import { Home } from './src/screens/Home';
-import { Header } from './src/components/Header';
+
+const STYLES = ['default', 'dark-content', 'light-content'] as const;
+const TRANSITIONS = ['fade', 'slide', 'none'] as const;
 
 export default function App() {
-  const [fontsLoaded]=useFonts({
-    Inter_400Regular,
-    Inter_600SemiBold,
-    Inter_700Bold,
-    Inter_800ExtraBold
-  })
-  if(!fontsLoaded) {
-    return (
-      <Loading />
-    )
-  }
+  const [hidden, setHidden] = useState(false);
+  const [statusBarStyle, setStatusBarStyle] = useState<StatusBarStyle>(
+    STYLES[0],
+  );
+  const [statusBarTransition, setStatusBarTransition] = useState<
+    'fade' | 'slide' | 'none'
+  >(TRANSITIONS[0]);
+
+  
   return (
-    <>
+    <SafeAreaProvider>
+      <NavigationContainer>
+        <StatusBar
+            animated={true}
+            backgroundColor="#002e62"
+            barStyle={statusBarStyle}
+            showHideTransition={statusBarTransition}
+            hidden={hidden}
+          />
+        <Routes />
+      </NavigationContainer>
+    </SafeAreaProvider>
     
-      <Home/>
-      <StatusBar barStyle="light-content" backgroundColor="transparent" translucent={true} />
-    </>
   );
 }
